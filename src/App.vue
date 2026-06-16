@@ -1,15 +1,17 @@
 <script setup>
-import { ref } from 'vue';
-import Budget from './components/budget.vue';
+import { ref } from "vue";
+import Budget from "./components/budget.vue";
+import ControlBudget from "./components/ControlBudget.vue";
+import iconNewExpense from "./assets/img/nuevo-gasto.svg";
 
-const budget = ref(0)
+
+const budget = ref(0);
+const availableBudget = ref(0)
 
 const defineBadget = (quantity) => {
-  console.log('cantitdad', quantity);
-  
   budget.value = quantity;
-}
-
+  availableBudget.value = quantity;
+};
 </script>
 <template>
   <div>
@@ -17,82 +19,106 @@ const defineBadget = (quantity) => {
       <h1>Planificador de gastos</h1>
 
       <div class="container-header container shadow">
-
-        <Budget
-        v-if="budget.value === 0"
-        @define-budget="defineBadget"
+        <Budget 
+          v-if="budget === 0" 
+          @define-budget="defineBadget" 
         />
-
+        <ControlBudget 
+          v-else 
+          :budget="budget"
+          :available-budget="availableBudget"
+        />
       </div>
     </header>
+
+    <main v-if="budget > 0 ">
+      <div class="create-expense">
+        <img 
+           :src="iconNewExpense"
+           alt="Nuevo Gasto"
+        />
+      </div>
+    </main>
   </div>
 </template>
 
+<style>
+:root {
+  --azul: #3b82f6;
+  --blanco: #fff;
+  --gris-claro: #f5f5f5;
+  --gris: #94a3b8;
+  --gris-oscuro: #64748b;
+  --negro: #000;
+}
 
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
 
-<style >
-  :root{
-    --azul: #3b82f6;
-    --blanco: #FFF;
-    --gris-claro: #F5F5F5;
-    --gris: #94a3b8;
-    --gris-oscuro: #64748b;
-    --negro: #000;
-  }
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 
-  html {
-    font-size: 62.5%;
-    box-sizing: border-box;
-  }
+body {
+  font-size: 1.6rem;
+  font-family: "Lato", sans-serif;
+  background-color: var(--gris-claro);
+}
 
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-  }
+h1 {
+  font-size: 4rem;
+}
 
-  body {
-    font-size: 1.6rem;
-    font-family: 'Lato', sans-serif;
-    background-color: var(--gris-claro);
-  }
+h2 {
+  font-size: 3rem;
+}
 
-  h1 {
-    font-size: 4rem;
-  }
+header {
+  background: var(--azul);
+}
 
-  h2 {
-    font-size: 3rem;
-  }
+header h1 {
+  padding: 3rem 0;
+  margin: 0;
+  color: var(--blanco);
+  text-align: center;
+}
 
-  header{
-    background: var(--azul);
-  }
+.container {
+  width: 90%;
+  max-width: 80rem;
+  margin: 0 auto;
+}
 
-  header h1 {
-    padding: 3rem 0;
-    margin: 0;
-    color: var(--blanco);
-    text-align: center;
-  }
+.container-header {
+  margin-top: -5rem;
+  transform: translateY(5rem);
+  padding: 5rem;
+}
 
-  .container {
-    width: 90%;
-    max-width: 80rem;
-    margin: 0 auto;
-  }
+.shadow {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  background-color: var(--blanco);
+  border-radius: 1.2rem;
+  padding: 5rem;
+}
 
-  .container-header {
-    margin-top: -5rem;
-    transform: translateY(5rem);
-    padding: 5rem;
-  }
+/* icono de gasto */
+.create-expense {
+  position: fixed;
+  bottom: 5rem;
+  right: 5rem;
+}
 
-  .shadow {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    background-color: var(--blanco);
-    border-radius: 1.2rem;
-    padding: 5rem;
-  }
-  
+.create-expense img {
+  width: 5rem;
+}
+
+.create-expense img:hover{
+  cursor: pointer;
+}
 </style>

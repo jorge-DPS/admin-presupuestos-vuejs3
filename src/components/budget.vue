@@ -5,7 +5,7 @@ import Alert from "./Alert.vue";
 const budget = ref(0);
 const error = ref("");
 
-const emits = defineEmits(["define-budget"]);
+const emit = defineEmits(["define-budget"]);
 
 
 const defineBudget = () => {
@@ -34,6 +34,7 @@ const defineBudget = () => {
         class="new-budget"
         placeholder="Añade tu presupuesto"
         type="number"
+        min="0"
         v-model.number="budget"
       />
     </div>
