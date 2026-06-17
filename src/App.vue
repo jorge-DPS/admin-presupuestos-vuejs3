@@ -1,9 +1,14 @@
 <script setup>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import Budget from "./components/budget.vue";
 import ControlBudget from "./components/ControlBudget.vue";
 import iconNewExpense from "./assets/img/nuevo-gasto.svg";
+import Modal from "./components/Modal.vue";
 
+const modal = reactive({
+   show: false,
+   animate: false
+})
 
 const budget = ref(0);
 const availableBudget = ref(0)
@@ -12,6 +17,17 @@ const defineBadget = (quantity) => {
   budget.value = quantity;
   availableBudget.value = quantity;
 };
+
+const showModal = () => {
+  modal.show = true;
+  modal.animate = true
+}
+
+const hideModal = () => {
+  modal.show = false;
+  modal.animate = false
+}
+
 </script>
 <template>
   <div>
@@ -36,8 +52,14 @@ const defineBadget = (quantity) => {
         <img 
            :src="iconNewExpense"
            alt="Nuevo Gasto"
+           @click="showModal"
         />
-      </div>
+      </div> 
+
+      <Modal 
+      v-if="modal.show" 
+      @hide-modal="hideModal"
+      />
     </main>
   </div>
 </template>
