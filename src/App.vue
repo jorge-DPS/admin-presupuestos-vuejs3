@@ -6,12 +6,23 @@ import iconNewExpense from "./assets/img/nuevo-gasto.svg";
 import Modal from "./components/Modal.vue";
 
 const modal = reactive({
-   show: false,
-   animate: false
-})
+  show: false,
+  animate: false,
+});
 
 const budget = ref(0);
-const availableBudget = ref(0)
+const availableBudget = ref(0);
+
+const expenseArray = ref([])
+
+const expenditure = reactive({
+  name: "",
+  quantity: "",
+  category: "",
+  id: null,
+  date: Date.now(),
+});
+
 
 const defineBadget = (quantity) => {
   budget.value = quantity;
@@ -20,12 +31,25 @@ const defineBadget = (quantity) => {
 
 const showModal = () => {
   modal.show = true;
-  modal.animate = true
-}
+  setTimeout(() => {
+    modal.animate = true;
+  }, 300);
+};
 
 const hideModal = () => {
-  modal.show = false;
-  modal.animate = false
+  modal.animate = false;
+  
+  setTimeout(() => {
+    modal.show = false;
+  }, 300);
+};
+
+const saveExpense = () => {
+  console.log('desde el app', expenditure);
+  expenseArray.value.push({
+    ...expenditure,
+    id: 123
+  })
 }
 
 </script>
@@ -35,30 +59,28 @@ const hideModal = () => {
       <h1>Planificador de gastos</h1>
 
       <div class="container-header container shadow">
-        <Budget 
-          v-if="budget === 0" 
-          @define-budget="defineBadget" 
-        />
-        <ControlBudget 
-          v-else 
+        <Budget v-if="budget === 0" @define-budget="defineBadget" />
+        <ControlBudget
+          v-else
           :budget="budget"
           :available-budget="availableBudget"
         />
       </div>
     </header>
 
-    <main v-if="budget > 0 ">
+    <main v-if="budget > 0">
       <div class="create-expense">
-        <img 
-           :src="iconNewExpense"
-           alt="Nuevo Gasto"
-           @click="showModal"
-        />
-      </div> 
+        <img :src="iconNewExpense" alt="Nuevo Gasto" @click="showModal" />
+      </div>
 
       <Modal 
-      v-if="modal.show" 
-      @hide-modal="hideModal"
+        v-if="modal.show" 
+        @hide-modal="hideModal" 
+        @save-expense="saveExpense"
+        :modal="modal"  
+        v-model:name="expenditure.name"
+        v-model:quantity="expenditure.quantity"
+        v-model:category="expenditure.category"
       />
     </main>
   </div>
@@ -140,7 +162,7 @@ header h1 {
   width: 5rem;
 }
 
-.create-expense img:hover{
+.create-expense img:hover {
   cursor: pointer;
 }
 </style>
