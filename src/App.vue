@@ -5,6 +5,7 @@ import ControlBudget from "./components/ControlBudget.vue";
 import iconNewExpense from "./assets/img/nuevo-gasto.svg";
 import Modal from "./components/Modal.vue";
 import { generarId } from "./helpers";
+import Expense from "./components/Expense.vue";
 
 const modal = reactive({
   show: false,
@@ -14,7 +15,7 @@ const modal = reactive({
 const budget = ref(0);
 const availableBudget = ref(0);
 
-const expenseArray = ref([])
+const expenseArray = ref([]);
 
 const expenditure = reactive({
   name: "",
@@ -23,7 +24,6 @@ const expenditure = reactive({
   id: null,
   date: Date.now(),
 });
-
 
 const defineBadget = (quantity) => {
   budget.value = quantity;
@@ -39,20 +39,30 @@ const showModal = () => {
 
 const hideModal = () => {
   modal.animate = false;
-  
+
   setTimeout(() => {
     modal.show = false;
   }, 300);
 };
 
 const saveExpense = () => {
-  console.log('desde el app', expenditure);
+  console.log("desde el app", expenditure);
   expenseArray.value.push({
     ...expenditure,
-    id: generarId()
-  })
-}
+    id: generarId(),
+  });
 
+  hideModal();
+
+  // Reiniciar el objeto
+  Object.assign(expenditure, {
+    name: "",
+    quantity: "",
+    category: "",
+    id: null,
+    date: Date.now(),
+  });
+};
 </script>
 <template>
   <div>
@@ -70,15 +80,25 @@ const saveExpense = () => {
     </header>
 
     <main v-if="budget > 0">
+
+      <div class="list-expense container">
+        <h2>{{ expenseArray.length > 0 ? 'Gastos' : 'No hay gastos' }}</h2>
+        <Expense 
+          v-for="expense in expenseArray"
+          :key="expense.id"
+          :expense="expense"
+        />
+      </div>
+
       <div class="create-expense">
         <img :src="iconNewExpense" alt="Nuevo Gasto" @click="showModal" />
       </div>
 
-      <Modal 
-        v-if="modal.show" 
-        @hide-modal="hideModal" 
+      <Modal
+        v-if="modal.show"
+        @hide-modal="hideModal"
         @save-expense="saveExpense"
-        :modal="modal"  
+        :modal="modal"
         v-model:name="expenditure.name"
         v-model:quantity="expenditure.quantity"
         v-model:category="expenditure.category"
@@ -165,5 +185,14 @@ header h1 {
 
 .create-expense img:hover {
   cursor: pointer;
+}
+
+.list-expense {
+  margin-top: 10rem;
+}
+
+.list-expense h2 {
+  font-weight: 900;
+  color: var(--gris-oscuro);
 }
 </style>
