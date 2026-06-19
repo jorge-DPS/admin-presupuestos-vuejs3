@@ -4,6 +4,7 @@ import Budget from "./components/budget.vue";
 import ControlBudget from "./components/ControlBudget.vue";
 import iconNewExpense from "./assets/img/nuevo-gasto.svg";
 import Modal from "./components/Modal.vue";
+import { generarId } from "./helpers";
 
 const modal = reactive({
   show: false,
@@ -48,7 +49,7 @@ const saveExpense = () => {
   console.log('desde el app', expenditure);
   expenseArray.value.push({
     ...expenditure,
-    id: 123
+    id: generarId()
   })
 }
 
