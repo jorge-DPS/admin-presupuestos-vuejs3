@@ -49,50 +49,60 @@ const defineBudget = () => {
 
 .campo {
   display: grid;
-  gap: 2rem;
-  margin-bottom: 2rem; /* Añadido para separar el campo del botón */
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .budget label {
-  font-size: 1.8rem; /* Reducido para un aspecto más equilibrado */
-  text-align: left; /* Alineado a la izquierda para mejor legibilidad */
+  font-size: 2rem;
   color: var(--azul);
-  font-weight: 700; /* Más énfasis en la etiqueta */
-  margin-bottom: 0.5rem; /* Pequeña separación de la entrada */
+  font-weight: 800;
   text-align: center;
-
+  letter-spacing: -0.01em;
 }
 
 .budget input[type="number"] {
   background-color: var(--gris-claro);
-  border-radius: 1rem;
-  padding: 1.2rem; /* Un poco más de padding para un mejor tacto */
-  border: 1px solid var(--gris); /* Borde sutil para definir el campo */
-  font-size: 1.8rem; /* Reducido para un aspecto más equilibrado */
-  text-align: left; /* Alineado a la izquierda para una entrada de número estándar */
-  transition: border-color 0.3s ease; /* Transición suave para el enfoque */
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  border: 2px solid var(--gris);
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--negro);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .budget input[type="number"]:focus {
-  outline: none; /* Elimina el contorno predeterminado del navegador */
-  border-color: var(--azul); /* Cambia el color del borde al enfocar */
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+  background-color: var(--blanco);
 }
 
 .budget input[type="submit"] {
-  background-color: var(--azul);
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-oscuro) 100%);
   border: none;
-  padding: 1rem;
-  font-size: 2rem;
-  margin-top: 2rem;
+  padding: 1.4rem;
+  font-size: 1.8rem;
+  margin-top: 1.5rem;
   color: var(--blanco);
-  font-weight: 900;
+  font-weight: 800;
   width: 100%;
-  transition: background-color 300ms ease;
-  border-radius: 0.8rem; /* Bordes ligeramente redondeados para que coincida con el contenedor */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 }
 
 .budget input[type="submit"]:hover {
-  background-color: #1048a4;
   cursor: pointer;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+}
+
+.budget input[type="submit"]:active {
+  transform: translateY(0);
 }
 </style>
